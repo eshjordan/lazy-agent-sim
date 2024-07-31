@@ -1,0 +1,2 @@
+# lazy-agent-sim
+Simulation environment for Monash University Final Year Project unit ENG4701. Models distributed coverage using lazy agents operating under discrete, local, event-triggered communication.

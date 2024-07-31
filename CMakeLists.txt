@@ -1,0 +1,53 @@
+cmake_minimum_required(VERSION 3.8)
+project(lazy_agent_sim)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
+# find dependencies
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+
+add_executable(lazy_agent_sim
+    src/lazy_agent_sim.cpp
+)
+
+ament_target_dependencies(lazy_agent_sim
+    rclcpp
+)
+
+target_include_directories(lazy_agent_sim PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+
+target_compile_features(lazy_agent_sim PUBLIC
+    c_std_99
+    cxx_std_17
+) # Require C99 and C++17
+
+install(TARGETS lazy_agent_sim
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+if(BUILD_TESTING)
+    find_package(ament_lint_auto REQUIRED)
+    # find_package(ament_cmake_clang_format REQUIRED)
+    # find_package(ament_cmake_clang_tidy REQUIRED)
+    # the following line skips the linter which checks for copyrights
+    # comment the line when a copyright and license is added to all source files
+    # set(ament_cmake_copyright_FOUND TRUE)
+    # the following line skips cpplint (only works in a git repo)
+    # comment the line when this package is in a git repo and when
+    # a copyright and license is added to all source files
+    # set(ament_cmake_cpplint_FOUND TRUE)
+    set(AMENT_LINT_AUTO_FILE_EXCLUDE
+        CONTRIBUTING.md
+    )
+    ament_lint_auto_find_test_dependencies()
+endif()
+
+ament_package()
