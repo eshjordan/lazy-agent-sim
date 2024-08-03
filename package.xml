@@ -7,9 +7,15 @@
     <maintainer email="jordan.esh@monashmotorsport.com">jordan</maintainer>
     <license>GPL-3.0-only</license>
 
-    <buildtool_depend>ament_cmake</buildtool_depend>
+    <buildtool_depend>ament_cmake_auto</buildtool_depend>
 
     <depend>rclcpp</depend>
+    <depend>std_msgs</depend>
+    <depend>geometry_msgs</depend>
+    <depend>sensor_msgs</depend>
+    <depend>pluginlib</depend>
+    <depend version_gte="2023.1.2">webots_ros2</depend>
+    <depend version_gte="2023.1.2">webots_ros2_driver</depend>
 
     <test_depend>ament_lint_auto</test_depend>
     <test_depend>ament_lint_common</test_depend>

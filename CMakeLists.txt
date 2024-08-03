@@ -3,51 +3,46 @@ project(lazy_agent_sim)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# Enable additional compiler warnings
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# find dependencies
-find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
+# Find dependencies
+find_package(ament_cmake_auto REQUIRED)
+ament_auto_find_build_dependencies()
 
-add_executable(lazy_agent_sim
-    src/lazy_agent_sim.cpp
+# Build messages
+ament_auto_generate_code()
+
+# Export the plugin configuration file
+pluginlib_export_plugin_description_file(webots_ros2_driver my_robot_driver.xml)
+
+# Build the library
+ament_auto_add_library(lazy_agent_sim SHARED NO_TARGET_LINK_LIBRARIES
+  src/LazyAgentSim.cpp
 )
 
-ament_target_dependencies(lazy_agent_sim
-    rclcpp
+# Build the executable
+ament_auto_add_executable(obstacle_avoider NO_TARGET_LINK_LIBRARIES
+  src/ObstacleAvoider.cpp
 )
 
-target_include_directories(lazy_agent_sim PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>
-)
-
-target_compile_features(lazy_agent_sim PUBLIC
-    c_std_99
-    cxx_std_17
-) # Require C99 and C++17
-
-install(TARGETS lazy_agent_sim
-  DESTINATION lib/${PROJECT_NAME}
-)
-
+# Test
 if(BUILD_TESTING)
-    find_package(ament_lint_auto REQUIRED)
-    # find_package(ament_cmake_clang_format REQUIRED)
-    # find_package(ament_cmake_clang_tidy REQUIRED)
-    # the following line skips the linter which checks for copyrights
-    # comment the line when a copyright and license is added to all source files
-    # set(ament_cmake_copyright_FOUND TRUE)
-    # the following line skips cpplint (only works in a git repo)
-    # comment the line when this package is in a git repo and when
-    # a copyright and license is added to all source files
-    # set(ament_cmake_cpplint_FOUND TRUE)
-    set(AMENT_LINT_AUTO_FILE_EXCLUDE
-        CONTRIBUTING.md
-    )
-    ament_lint_auto_find_test_dependencies()
+  ament_auto_find_test_dependencies()
+
+  set(AMENT_LINT_AUTO_FILE_EXCLUDE
+    CONTRIBUTING.md
+  )
+
+  ament_lint_auto_find_test_dependencies()
 endif()
 
-ament_package()
+# Install
+ament_auto_package(
+  INSTALL_TO_SHARE
+    launch
+    resource
+    worlds
+)

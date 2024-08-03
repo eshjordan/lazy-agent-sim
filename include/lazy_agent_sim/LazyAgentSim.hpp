@@ -1,5 +1,4 @@
 /**
-Simulation of distributed coverage using lazy agents operating under discrete, local, event-triggered communication.
 Copyright (C) 2024  Jordan Esh
 
 This program is free software: you can redistribute it and/or modify
@@ -16,14 +15,26 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 **/
 
-#include <cstdio>
-#include <rclcpp/rclcpp.hpp>
+#pragma once
 
-int main(int argc, char **argv)
+#include "rclcpp/macros.hpp"
+#include "webots_ros2_driver/PluginInterface.hpp"
+#include "webots_ros2_driver/WebotsNode.hpp"
+
+#include "geometry_msgs/msg/twist.hpp"
+
+namespace lazy_agent_sim {
+class MyRobotDriver : public webots_ros2_driver::PluginInterface
 {
-    (void)argc;
-    (void)argv;
+public:
+    void step() override;
+    void init(webots_ros2_driver::WebotsNode *node, std::unordered_map<std::string, std::string> &parameters) override;
 
-    printf("hello world lazy_agent_sim package\n");
-    return 0;
-}
+private:
+    rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_subscription_;
+    geometry_msgs::msg::Twist cmd_vel_msg_;
+
+    WbDeviceTag right_motor_;
+    WbDeviceTag left_motor_;
+};
+} // namespace lazy_agent_sim
