@@ -17,9 +17,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "rclcpp/macros.hpp"
 #include "webots_ros2_driver/PluginInterface.hpp"
 #include "webots_ros2_driver/WebotsNode.hpp"
+#include <rclcpp/rclcpp.hpp>
 
 #include "geometry_msgs/msg/twist.hpp"
 
@@ -34,7 +34,7 @@ private:
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_subscription_;
     geometry_msgs::msg::Twist cmd_vel_msg_;
 
-    WbDeviceTag right_motor_;
-    WbDeviceTag left_motor_;
+    WbDeviceTag right_motor_ = 0;
+    WbDeviceTag left_motor_  = 0;
 };
 } // namespace lazy_agent_sim

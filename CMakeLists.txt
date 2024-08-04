@@ -32,9 +32,12 @@ ament_auto_add_executable(obstacle_avoider NO_TARGET_LINK_LIBRARIES
 if(BUILD_TESTING)
   ament_auto_find_test_dependencies()
 
-  set(AMENT_LINT_AUTO_FILE_EXCLUDE
-    CONTRIBUTING.md
+  file(GLOB_RECURSE AMENT_LINT_AUTO_FILE_EXCLUDE
   )
+
+  set(ament_cmake_clang_format_CONFIG_FILE ${CMAKE_CURRENT_LIST_DIR}/.clang-format)
+  set(ament_cmake_clang_tidy_CONFIG_FILE ${CMAKE_CURRENT_LIST_DIR}/.clang-tidy)
+  set(ament_cmake_clang_tidy_JOBS 16)
 
   ament_lint_auto_find_test_dependencies()
 endif()
