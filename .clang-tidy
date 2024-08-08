@@ -6,7 +6,7 @@ Checks:          'boost-*, bugprone-*, clang-analyzer-*, cppcoreguidelines-*, go
                   -readability-magic-numbers,
                   -modernize-use-trailing-return-type,
                   -misc-include-cleaner'
-WarningsAsErrors: ''
+WarningsAsErrors: '1'
 HeaderFilterRegex: ''
 FormatStyle:     none
 User:            jordan
